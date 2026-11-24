@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Parallax 해커톤 참가작 소개 페이지 초안">
+  <title>프로젝트 소개 · Parallax 해커톤</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="#top">프로젝트 이름</a>
+      <nav aria-label="페이지 메뉴">
+        <a href="#about">소개</a>
+        <a href="#demo">데모</a>
+      </nav>
+    </div>
+  </header>
+  <main id="top" class="wrap">
+    <section class="hero" aria-labelledby="title">
+      <p class="eyebrow">Parallax 해커톤 · 작업 초안</p>
+      <h1 id="title">프로젝트를<br>한 문장으로 소개하세요.</h1>
+      <p class="lead">누구의 어떤 문제를 해결하는지, 사용자가 무엇을 할 수 있는지 적는 자리입니다.</p>
+      <a class="button" href="#demo">데모 미리보기 <span aria-hidden="true">↓</span></a>
+    </section>
+    <section id="about" class="section" aria-labelledby="about-title">
+      <h2 id="about-title">프로젝트 소개</h2>
+      <dl class="overview">
+        <div>
+          <dt>해결하려는 문제</dt>
+          <dd>사용자가 겪는 불편을 구체적인 상황으로 설명합니다.</dd>
+        </div>
+        <div>
+          <dt>제안하는 방법</dt>
+          <dd>사용자가 이 프로젝트로 어떻게 문제를 해결하는지 설명합니다.</dd>
+        </div>
+      </dl>
+    </section>
+    <section id="demo" class="section demo-section" aria-labelledby="demo-title">
+      <div>
+        <h2 id="demo-title">데모 미리보기</h2>
+        <p>실제 제품 화면이나 시연 영상이 준비되면 이 영역에 넣을 수 있습니다.</p>
+      </div>
+      <div class="demo">
+        <details id="demo-details">
+          <summary>시연 흐름 예시</summary>
+          <ol>
+            <li>사용자가 해결하려는 상황을 보여줍니다.</li>
+            <li>프로젝트의 핵심 기능을 실행합니다.</li>
+            <li>화면에서 결과를 확인합니다.</li>
+          </ol>
+        </details>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap footer"><a href="#top">맨 위로 ↑</a></footer>
+</body>
+</html>

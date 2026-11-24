@@ -1,0 +1,64 @@
+:root {
+  color-scheme: light;
+  --ink: #142326;
+  --muted: #4c6467;
+  --paper: #f8faf5;
+  --line: #cbd8d3;
+  --accent: #16574e;
+  font-family: system-ui, "Malgun Gothic", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; line-height: 1.65; word-break: keep-all; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid #237b6d; outline-offset: 5px; }
+.wrap { width: min(100% - 2.5rem, 65rem); margin-inline: auto; }
+.site-header { border-bottom: 1px solid var(--line); }
+.header-row, nav { display: flex; align-items: center; gap: 1.25rem; }
+.header-row { justify-content: space-between; min-height: 4.25rem; }
+.header-row a { text-decoration: none; }
+.header-row a:hover, .footer a:hover { text-decoration: underline; }
+.brand { font-weight: 800; }
+nav, .footer { font-size: .95rem; }
+.hero { padding-block: clamp(4rem, 11vw, 8rem); }
+.eyebrow { color: var(--accent); font-size: .9rem; font-weight: 750; }
+h1, h2, p, dl, dd { margin: 0; }
+h1 {
+  margin-block: .85rem 1.2rem;
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  line-height: 1.15;
+  letter-spacing: -.065em;
+}
+.lead { max-width: 34rem; font-size: clamp(1.05rem, 2vw, 1.25rem); }
+.lead, dd, .demo-section p { color: var(--muted); }
+.button {
+  display: inline-flex;
+  gap: .8rem;
+  align-items: center;
+  margin-top: 1.75rem;
+  padding: .75rem 1.1rem;
+  border-radius: .4rem;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+.button:hover { background: #10463e; }
+.section { border-top: 1px solid var(--line); padding-block: 2.5rem; }
+h2 { font-size: clamp(1.55rem, 3vw, 2.15rem); line-height: 1.25; }
+.overview, .demo-section { display: grid; grid-template-columns: 1fr 1fr; gap: 1.35rem 2rem; }
+.overview { margin-top: 1.4rem; }
+dt { font-weight: 750; }
+dd, .demo-section p { margin-top: .4rem; }
+.demo { padding: 1rem 1.25rem; border-radius: .5rem; background: #e7f0e9; }
+summary { cursor: pointer; font-weight: 700; }
+.demo ol { margin: .8rem 0 0; padding-left: 1.4rem; }
+.footer { padding-block: 1.5rem; border-top: 1px solid var(--line); color: var(--muted); }
+.footer a { text-decoration: none; }
+
+@media (max-width: 42rem) {
+  .overview, .demo-section { grid-template-columns: 1fr; }
+  .section { padding-block: 2rem; }
+}
