@@ -3,58 +3,68 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Parallax 해커톤 참가작 소개 페이지 초안">
-  <title>프로젝트 소개 · Parallax 해커톤</title>
+  <meta name="description" content="Parallax 해커톤의 한 페이지 규칙과 심사위원별 배점">
+  <title>Parallax 해커톤 · 규칙과 배점</title>
   <link rel="stylesheet" href="./styles.css">
-  <script src="./script.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <div class="wrap header-row">
-      <a class="brand" href="#top">프로젝트 이름</a>
+      <a class="brand" href="#top">Parallax 해커톤</a>
       <nav aria-label="페이지 메뉴">
-        <a href="#about">소개</a>
-        <a href="#demo">데모</a>
+        <a href="#rules">규칙</a>
+        <a href="#scores">배점</a>
       </nav>
     </div>
   </header>
   <main id="top" class="wrap">
-    <section class="hero" aria-labelledby="title">
-      <p class="eyebrow">Parallax 해커톤 · 작업 초안</p>
-      <h1 id="title">프로젝트를<br>한 문장으로 소개하세요.</h1>
-      <p class="lead">누구의 어떤 문제를 해결하는지, 사용자가 무엇을 할 수 있는지 적는 자리입니다.</p>
-      <a class="button" href="#demo">데모 미리보기 <span aria-hidden="true">↓</span></a>
+    <header class="hero">
+      <h1>랜딩 페이지 규칙과 배점</h1>
+      <p>주제는 자유입니다. 소개할 내용은 스크롤로 볼 수 있는 한 페이지에 담습니다.</p>
+    </header>
+    <section id="rules" class="section" aria-labelledby="rules-title">
+      <h2 id="rules-title">한 페이지 규칙</h2>
+      <ol class="rules">
+        <li>소개하려는 내용을 스크롤로 내려 볼 수 있는 한 페이지에 모두 담습니다.</li>
+        <li>다른 주소로 이동하는 페이지가 있으면, 한 장을 초과할 때마다 총점에서 1점씩 감점합니다. 예를 들어 전체가 세 장이면 2점이 깎입니다.</li>
+        <li>오프라인 매장, 새로 나온 책, 동네 행사, 개인 프로젝트 등 주제는 자유입니다.</li>
+      </ol>
     </section>
-    <section id="about" class="section" aria-labelledby="about-title">
-      <h2 id="about-title">프로젝트 소개</h2>
-      <dl class="overview">
-        <div>
-          <dt>해결하려는 문제</dt>
-          <dd>사용자가 겪는 불편을 구체적인 상황으로 설명합니다.</dd>
-        </div>
-        <div>
-          <dt>제안하는 방법</dt>
-          <dd>사용자가 이 프로젝트로 어떻게 문제를 해결하는지 설명합니다.</dd>
-        </div>
-      </dl>
-    </section>
-    <section id="demo" class="section demo-section" aria-labelledby="demo-title">
-      <div>
-        <h2 id="demo-title">데모 미리보기</h2>
-        <p>실제 제품 화면이나 시연 영상이 준비되면 이 영역에 넣을 수 있습니다.</p>
-      </div>
-      <div class="demo">
-        <details id="demo-details">
-          <summary>시연 흐름 예시</summary>
-          <ol>
-            <li>사용자가 해결하려는 상황을 보여줍니다.</li>
-            <li>프로젝트의 핵심 기능을 실행합니다.</li>
-            <li>화면에서 결과를 확인합니다.</li>
-          </ol>
-        </details>
+    <section id="scores" class="section" aria-labelledby="scores-title">
+      <h2 id="scores-title">심사위원별 배점</h2>
+      <div class="score-grid">
+        <table>
+          <caption>심사위원 A</caption>
+          <thead><tr><th scope="col">평가 항목</th><th scope="col">배점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">애니메이션(움직임, 시나리오)</th><td>15점</td></tr>
+            <tr><th scope="row">메시지 전달력</th><td>10점</td></tr>
+            <tr><th scope="row">데스크탑·모바일 조화</th><td>5점</td></tr>
+            <tr><th scope="row">기본 평가</th><td>20점</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <caption>심사위원 B</caption>
+          <thead><tr><th scope="col">평가 항목</th><th scope="col">배점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">창의성</th><td>15점</td></tr>
+            <tr><th scope="row">메시지 전달력</th><td>12점</td></tr>
+            <tr><th scope="row">반응형</th><td>3점</td></tr>
+            <tr><th scope="row">기본 평가</th><td>20점</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <caption>심사위원 C</caption>
+          <thead><tr><th scope="col">평가 항목</th><th scope="col">배점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">체험형 인터렉티브</th><td>15점</td></tr>
+            <tr><th scope="row">미니멀</th><td>5점</td></tr>
+            <tr><th scope="row">물리엔진</th><td>10점</td></tr>
+            <tr><th scope="row">기본 평가</th><td>20점</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
   </main>
-  <footer class="wrap footer"><a href="#top">맨 위로 ↑</a></footer>
 </body>
 </html>
