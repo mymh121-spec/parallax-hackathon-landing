@@ -3,6 +3,15 @@ const trackTemplate = document.querySelector('#track-template');
 const editingTrackURLs = new URLSearchParams(location.search).get('music') === 'edit';
 let activeTrack;
 
+const demoCues = {
+  renaissance: '높은 성부가 시작하고 두 박 뒤에 낮은 성부가 같은 선율을 따라옵니다.',
+  baroque: '혼자 들려주던 첫 선율을 다시 들을 때, 이번에는 베이스와 화음이 함께 들어옵니다.',
+  classicism: '비슷하게 시작하는 두 악구의 끝을 비교해 보세요. 두 번째 악구가 첫 음으로 돌아옵니다.',
+  romanticism: '하나, 둘, 셋을 세어 보세요. 둘째 박의 화음을 세게 친 세 박자 춤입니다.',
+  modernism: '잠깐의 쉼을 사이에 두고 악보의 첫 줄과 둘째 줄이 차례로 들립니다.',
+  digital: '피아노 롤의 여덟 음이 두 번 나옵니다. 두 번째에는 같은 음에 배음을 더했습니다.',
+};
+
 function parseTrack(value) {
   const url = new URL(value);
   if (!['http:', 'https:'].includes(url.protocol)) throw new Error();
@@ -75,6 +84,7 @@ for (const chapter of document.querySelectorAll('.chapter')) {
   const input = form.elements.url;
   const field = input.closest('label');
   const status = controls.querySelector('.track-status');
+  const cue = controls.querySelector('.demo-cue');
   const track = { play, status, video: controls.querySelector('.track-video'), title: chapter.querySelector('h2').textContent };
   const key = 'music-history:track:' + chapter.id;
   const defaultURL = chapterTracks[chapter.id] || '';
@@ -84,7 +94,9 @@ for (const chapter of document.querySelectorAll('.chapter')) {
   } catch {}
 
   function applyURL(value) {
-    track.source = value ? parseTrack(value) : undefined;
+    track.source = value ? parseTrack(value) : { url: 'assets/audio/' + chapter.id + '.wav' };
+    cue.hidden = Boolean(value);
+    cue.textContent = value ? '' : '직접 만든 예시 음원　' + demoCues[chapter.id];
     track.needsCorrection = false;
     currentURL = value;
   }
@@ -130,7 +142,7 @@ for (const chapter of document.querySelectorAll('.chapter')) {
       if (value) localStorage.setItem(key, value);
       else localStorage.removeItem(key);
       status.textContent = value ? '이 브라우저에 음악 주소를 저장했어요.'
-        : defaultURL ? '사이트 기본 음악으로 돌아왔어요.' : '음악 주소를 지웠어요.';
+        : defaultURL ? '사이트 기본 음악으로 돌아왔어요.' : '예시 음원으로 돌아왔어요.';
     } catch {
       status.textContent = '이번 방문에 음악 주소를 적용했어요.';
     }
