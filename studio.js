@@ -11,6 +11,8 @@
   const status = document.querySelector('#synth-status');
   const presets = [...document.querySelectorAll('[data-wave]')];
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const cycle = waveNames.length;
+  const wrap = value => ((value % cycle) + cycle) % cycle;
   const clamp = (number, min, max) => Math.max(min, Math.min(max, number));
 
   let position = 0;
@@ -23,8 +25,21 @@
   let transport;
   let request = 0;
 
-  function waveWeights() {
-    return [Math.max(0, 1 - position * 2), 1 - Math.abs(position * 2 - 1), Math.max(0, position * 2 - 1)];
+  function waveBlend() {
+    const phase = wrap(position);
+    const first = Math.floor(phase);
+    const next = (first + 1) % cycle;
+    const mix = phase - first;
+    const weights = waveNames.map((_, index) => {
+      if (index === first) return 1 - mix;
+      if (index === next) return mix;
+      return 0;
+    });
+    return { phase, first, next, mix, weights };
+  }
+
+  function nearestPosition(preset) {
+    return preset + Math.round((position - preset) / cycle) * cycle;
   }
 
   function drawWave(weights) {
@@ -59,18 +74,17 @@
   }
 
   function render() {
-    const percent = Math.round(position * 100);
-    const first = position < 0.5 ? 0 : 1;
-    const mix = position * 2 - first;
-    const name = percent % 50 === 0 ? waveNames[percent / 50] : waveNames[first] + ' ↔ ' + waveNames[first + 1];
-    knob.style.setProperty('--angle', (position * 270 - 135) + 'deg');
-    knob.setAttribute('aria-valuenow', percent);
-    knob.setAttribute('aria-valuetext', percent % 50 === 0 ? name : name + ' ' + Math.round(mix * 100) + '%');
+    const { phase, first, next, mix, weights } = waveBlend();
+    const exact = Math.abs(position - Math.round(position)) < 0.002;
+    const active = wrap(Math.round(position));
+    const name = exact ? waveNames[active] : waveNames[first] + ' ↔ ' + waveNames[next];
+    knob.style.setProperty('--angle', (phase * 360 / cycle) + 'deg');
+    knob.setAttribute('aria-valuenow', Math.round(phase / cycle * 100));
+    knob.setAttribute('aria-valuetext', exact ? name : name + ' ' + Math.round(mix * 100) + '%');
     if (label.textContent !== name) label.textContent = name;
     for (const preset of presets) {
-      preset.setAttribute('aria-pressed', String(Math.abs(Number(preset.dataset.wave) - position) < 0.002));
+      preset.setAttribute('aria-pressed', String(exact && Number(preset.dataset.wave) === active));
     }
-    const weights = waveWeights();
     drawWave(weights);
     if (transport) {
       transport.mix.forEach((gain, index) => {
@@ -85,10 +99,15 @@
     lastFrame = time;
     while (remaining > 0) {
       const step = Math.min(remaining, 1 / 120);
-      velocity += ((target - position) * 120 - velocity * 14) * step;
-      const next = position + velocity * step;
-      position = clamp(next, 0, 1);
-      if (next !== position) velocity = 0;
+      const distance = target - position;
+      velocity += (distance * 120 - velocity * 22) * step;
+      const movement = velocity * step;
+      if (distance !== 0 && distance * (distance - movement) <= 0) {
+        position = target;
+        velocity = 0;
+        break;
+      }
+      position += movement;
       remaining -= step;
     }
     if (Math.abs(target - position) < 0.001 && Math.abs(velocity) < 0.012) {
@@ -102,7 +121,7 @@
   }
 
   function moveTo(value, startVelocity = 0) {
-    target = clamp(value, 0, 1);
+    target = value;
     velocity = startVelocity;
     cancelAnimationFrame(frame);
     if (reducedMotion.matches) {
@@ -136,9 +155,9 @@
     if (pointer?.id !== event.pointerId) return;
     const angle = pointerAngle(event);
     const delta = Math.atan2(Math.sin(angle - pointer.angle), Math.cos(angle - pointer.angle));
-    const next = clamp(position + delta / (Math.PI * 1.5), 0, 1);
+    const next = position + delta * cycle / (Math.PI * 2);
     const elapsed = Math.max(0.008, (event.timeStamp - pointer.time) / 1000);
-    velocity = clamp((next - position) / elapsed, -3, 3) * 0.65 + velocity * 0.35;
+    velocity = clamp((next - position) / elapsed, -8, 8) * 0.65 + velocity * 0.35;
     position = next;
     pointer = { id: event.pointerId, angle, time: event.timeStamp };
     render();
@@ -148,8 +167,8 @@
     if (pointer?.id !== event.pointerId) return;
     const impulse = event.type !== 'pointerup' || event.timeStamp - pointer.time > 110 ? 0 : velocity;
     pointer = undefined;
-    const projected = clamp(position + impulse * 0.10, 0, 1);
-    moveTo(Math.round(projected * 2) / 2, impulse);
+    const projected = position + impulse * 0.10;
+    moveTo(Math.round(projected), impulse);
   }
   knob.addEventListener('pointerup', releaseKnob);
   knob.addEventListener('pointercancel', releaseKnob);
@@ -157,21 +176,21 @@
 
   knob.addEventListener('keydown', event => {
     const keys = {
-      ArrowRight: target + 0.05,
-      ArrowUp: target + 0.05,
-      ArrowLeft: target - 0.05,
-      ArrowDown: target - 0.05,
-      Home: 0,
-      End: 1,
-      PageUp: target + 0.5,
-      PageDown: target - 0.5,
+      ArrowRight: target + 0.15,
+      ArrowUp: target + 0.15,
+      ArrowLeft: target - 0.15,
+      ArrowDown: target - 0.15,
+      Home: nearestPosition(0),
+      End: nearestPosition(cycle - 1),
+      PageUp: target + 1,
+      PageDown: target - 1,
     };
     if (!Object.hasOwn(keys, event.key)) return;
     event.preventDefault();
     moveTo(keys[event.key]);
   });
   for (const preset of presets) {
-    preset.addEventListener('click', () => moveTo(Number(preset.dataset.wave)));
+    preset.addEventListener('click', () => moveTo(nearestPosition(Number(preset.dataset.wave))));
   }
   reducedMotion.addEventListener('change', () => {
     if (reducedMotion.matches && frame) moveTo(target);
@@ -232,7 +251,7 @@
     const envelope = audio.createGain();
     envelope.gain.value = 0;
     envelope.connect(audio.destination);
-    const weights = waveWeights();
+    const { weights } = waveBlend();
     const mix = waveTypes.map((type, index) => {
       const gain = audio.createGain();
       gain.gain.value = weights[index];
