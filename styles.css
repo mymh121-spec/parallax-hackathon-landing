@@ -370,3 +370,24 @@ button:focus-visible, input:focus-visible, [role="slider"]:focus-visible {
 #score-help { grid-column: 1 / -1; max-width: none; font-size: .8rem; }
 .chapter .demo-cue { border-left: 2px solid var(--gold); margin-bottom: 12px; padding-left: 12px; font-size: .89rem; }
 .studio { scroll-margin-top: 62px; }
+
+@media (max-width: 700px) {
+  .chapter-nav {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 0;
+    padding-inline: 4px;
+    overflow: visible;
+  }
+  .chapter-nav a {
+    display: grid;
+    place-items: center;
+    grid-column: span 3;
+    padding: 3px 0;
+    min-height: 44px;
+    text-align: center;
+    font-size: clamp(.72rem, 3vw, .88rem);
+  }
+  .chapter-nav a:nth-child(n + 5) { grid-column: span 4; }
+  .chapter, .studio { scroll-margin-top: 98px; }
+}
