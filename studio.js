@@ -196,6 +196,45 @@
     if (reducedMotion.matches && frame) moveTo(target);
   });
 
+  function drawPianoRoll() {
+    const editor = document.querySelector('.roll-editor');
+    const pitchNames = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
+    const lowestPitch = Math.floor(Math.min(...melody.map(([pitch]) => pitch)) / 12) * 12;
+    const beats = melody.reduce((sum, [, duration]) => sum + duration, 0);
+    const rowForPitch = pitch => 13 - (pitch - lowestPitch);
+    const pitchLabel = pitch => pitchNames[pitch % 12] + (Math.floor(pitch / 12) - 1);
+
+    editor.style.setProperty('--beats', beats);
+    document.querySelector('.roll-tempo').textContent = Math.round(60 / beat) + ' BPM';
+    for (let index = 0; index < beats; index++) {
+      const mark = document.createElement('span');
+      mark.className = 'roll-ruler';
+      mark.style.gridColumn = index + 2;
+      mark.textContent = (Math.floor(index / 4) + 1) + '.' + (index % 4 + 1);
+      editor.append(mark);
+    }
+    for (let pitch = lowestPitch; pitch < lowestPitch + 12; pitch++) {
+      const key = document.createElement('span');
+      const lane = document.createElement('span');
+      const accidental = pitchNames[pitch % 12].includes('♯') ? ' accidental' : '';
+      key.className = 'roll-key' + accidental;
+      lane.className = 'roll-lane' + accidental;
+      key.style.gridRow = lane.style.gridRow = rowForPitch(pitch);
+      if (!accidental) key.textContent = pitchLabel(pitch);
+      editor.append(key, lane);
+    }
+    let column = 2;
+    for (const [pitch, duration] of melody) {
+      const note = document.createElement('span');
+      note.className = 'roll-note';
+      note.style.gridColumn = column + ' / span ' + duration;
+      note.style.gridRow = rowForPitch(pitch);
+      note.textContent = pitchLabel(pitch);
+      editor.append(note);
+      column += duration;
+    }
+  }
+
   function scheduleNotes() {
     if (!transport) return;
     if (transport.nextTime < audio.currentTime) transport.nextTime = audio.currentTime + 0.02;
@@ -272,6 +311,7 @@
     play.setAttribute('aria-pressed', 'true');
   }
 
+  drawPianoRoll();
   play.addEventListener('click', toggleMelody);
   document.addEventListener('chapter-audio-start', stopMelody);
   new ResizeObserver(() => {

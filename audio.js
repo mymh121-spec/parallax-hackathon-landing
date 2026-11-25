@@ -1,5 +1,6 @@
 const chapterAudio = document.querySelector('#chapter-audio');
 const trackTemplate = document.querySelector('#track-template');
+const editingTrackURLs = new URLSearchParams(location.search).get('music') === 'edit';
 let activeTrack;
 
 function parseTrack(value) {
@@ -58,6 +59,7 @@ async function startChapterTrack(track) {
 
 function reportAudioError() {
   if (!activeTrack) return;
+  activeTrack.needsCorrection = true;
   activeTrack.status.textContent = '음원을 재생할 수 없어요. 브라우저에서 직접 재생되는 주소인지 확인해 주세요.';
   stopChapterTrack();
 }
@@ -71,38 +73,59 @@ for (const chapter of document.querySelectorAll('.chapter')) {
   const play = controls.querySelector('.track-play');
   const form = controls.querySelector('form');
   const input = form.elements.url;
+  const field = input.closest('label');
   const status = controls.querySelector('.track-status');
   const track = { play, status, video: controls.querySelector('.track-video'), title: chapter.querySelector('h2').textContent };
   const key = 'music-history:track:' + chapter.id;
   const defaultURL = chapterTracks[chapter.id] || '';
-  input.value = defaultURL;
+  let currentURL = defaultURL;
   try {
-    input.value = localStorage.getItem(key) || defaultURL;
+    currentURL = localStorage.getItem(key) || defaultURL;
   } catch {}
 
   function applyURL(value) {
     track.source = value ? parseTrack(value) : undefined;
-    play.disabled = !track.source;
+    track.needsCorrection = false;
+    currentURL = value;
+  }
+
+  function closeEditor() {
+    field.hidden = true;
+    play.textContent = '이 장의 곡 듣기';
+    play.setAttribute('aria-pressed', 'false');
+    play.focus();
   }
 
   try {
-    applyURL(input.value);
+    applyURL(currentURL);
   } catch {
     status.textContent = '음악 주소를 확인해 주세요.';
   }
 
   play.setAttribute('aria-pressed', 'false');
-  play.addEventListener('click', () => startChapterTrack(track));
   form.addEventListener('submit', event => {
     event.preventDefault();
+
+    if (field.hidden) {
+      if (track.source && !editingTrackURLs && !track.needsCorrection) {
+        startChapterTrack(track);
+      } else {
+        field.hidden = false;
+        input.value = currentURL;
+        play.textContent = editingTrackURLs ? '주소 저장' : '저장하고 듣기';
+        input.focus();
+      }
+      return;
+    }
+
     const value = input.value.trim();
     try {
       applyURL(value || defaultURL);
     } catch {
       status.textContent = '재생 가능한 음원이나 YouTube 동영상 주소를 넣어 주세요.';
+      input.focus();
       return;
     }
-    if (activeTrack === track) stopChapterTrack();
     try {
       if (value) localStorage.setItem(key, value);
       else localStorage.removeItem(key);
@@ -111,10 +134,16 @@ for (const chapter of document.querySelectorAll('.chapter')) {
     } catch {
       status.textContent = '이번 방문에 음악 주소를 적용했어요.';
     }
-    input.value = value || defaultURL;
-    const settings = controls.querySelector('details');
-    settings.open = false;
-    settings.querySelector('summary').focus();
+    closeEditor();
+    if (track.source && !editingTrackURLs) startChapterTrack(track);
   });
+
+  form.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !field.hidden) {
+      event.preventDefault();
+      closeEditor();
+    }
+  });
+
   chapter.querySelector('.chapter-copy').append(controls);
 }

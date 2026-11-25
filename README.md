@@ -6,7 +6,8 @@
 
 ## 장별 음악 넣기
 
-- 미리보기에서는 해당 장의 **음악 URL**을 열고 주소를 넣은 다음 **적용**을 누르세요. 이 입력값은 현재 브라우저에 저장됩니다. 입력란을 비우고 적용하면 사이트 기본값으로 돌아옵니다.
+- 곡 주소가 비어 있는 장에서 **이 장의 곡 듣기**를 누르면 주소 입력창이 열립니다. **저장하고 듣기**를 누르면 현재 브라우저에 저장하고 재생합니다.
+- 저장한 주소를 바꾸거나 지우려면 페이지 주소 끝에 `?music=edit`를 붙여 열고 해당 장의 **이 장의 곡 듣기**를 누르세요. 주소 칸을 비워 저장하면 사이트 기본값으로 돌아옵니다.
 - 방문자에게도 기본 곡을 제공하려면 [tracks.js](tracks.js)에서 장에 해당하는 빈 문자열에 주소를 넣으세요.
 - MP3나 WAV처럼 브라우저에서 직접 재생되는 음원 주소와 임베드가 허용된 YouTube 동영상 주소를 지원합니다. 공개하는 음원에는 필요한 출처와 라이선스를 표기하세요.
 
@@ -20,3 +21,11 @@
 2. 이미지, 글꼴, 음원, 영상, 코드, AI 생성물 등 외부 자료를 쓸 때는 라이선스를 직접 확인하고, 필요한 출처 표기를 해 주세요.
 3. 출품작의 저작권은 참가자에게 있습니다. 운영진은 심사, 갤러리 공개, 결과 발표와 해커톤 및 패럴렉스 서비스 홍보(웹사이트, SNS, 블로그 등)에 출품작의 이름, 링크, 스크린샷, 영상을 사용할 수 있습니다.
 4. 권리 침해에 대한 책임은 출품자에게 있습니다. 침해가 확인되면 출품작을 숨기거나 관련 자료를 삭제하고 심사와 수상에서 제외할 수 있습니다.
+
+## 시각 자료 출처
+
+- 표지의 바이올린과 악보는 AI 생성 이미지입니다.
+- 르네상스와 바로크는 메트로폴리탄 미술관이 퍼블릭 도메인으로 표시한 [성가책 삽화](https://www.metmuseum.org/art/collection/search/929276)와 [무대 원근 설계](https://www.metmuseum.org/art/collection/search/341372)입니다.
+- 고전주의는 웰컴 컬렉션의 [연주를 준비하는 네 음악가](https://wellcomecollection.org/works/yx8dkrta)입니다. 공개 기록의 권리 표기는 Public Domain Mark입니다.
+- 낭만주의의 [폴로네즈 삽화](https://commons.wikimedia.org/wiki/File:Kossak_-_Polonez_D%C4%85browskiego.jpg), [하르당에르 혼례 행렬](https://commons.wikimedia.org/wiki/File:Adolph_Tidemand_%26_Hans_Gude_-_Bridal_Procession_on_the_Hardangerfjord_-_Google_Art_Project.jpg), [한여름의 춤](https://commons.wikimedia.org/wiki/File:Zorn_-_Midsummer_Dance.jpg), [쿠르스크 지방의 원무](https://commons.wikimedia.org/wiki/File:Trutovsky_001.jpg)는 위키미디어 공용에서 퍼블릭 도메인으로 표시한 자료입니다.
+- 모더니즘의 연습곡 악보와 디지털 음악 제작의 피아노 롤은 이 페이지용으로 제작했습니다. 피아노 롤의 음표는 마지막 체험에서 재생하는 멜로디와 같습니다.
