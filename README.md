@@ -6,9 +6,9 @@
 
 ## 장별 음악 넣기
 
-- 기본 곡이 비어 있으면 **이 장의 곡 듣기**로 이 페이지를 위해 합성한 짧은 예시 음원을 듣습니다. 예시 설명은 대표곡 주소를 넣으면 사라집니다.
+- 기본 곡이 비어 있으면 **이 장의 곡 듣기**로 이 페이지를 위해 합성한 짧은 예시 음원을 듣습니다.
 - 내 브라우저에서 곡 주소를 넣거나 바꾸려면 페이지 주소 끝에 `?music=edit`를 붙여 열고 해당 장의 **이 장의 곡 듣기**를 누르세요. 주소 칸을 비워 저장하면 사이트 기본값으로 돌아옵니다.
-- 방문자에게도 기본 곡을 제공하려면 [tracks.js](tracks.js)에서 장에 해당하는 빈 문자열에 주소를 넣으세요.
+- 방문자에게도 기본 곡을 제공하려면 [tracks.js](tracks.js)에서 해당 장의 `url`과 곡명, 감상 안내, 출처를 수정하세요.
 - MP3나 WAV처럼 브라우저에서 직접 재생되는 음원 주소와 임베드가 허용된 YouTube 동영상 주소를 지원합니다. 공개하는 음원에는 필요한 출처와 라이선스를 표기하세요.
 
 마지막 장에서는 멜로디를 재생한 뒤 노브를 돌려 사인파, 삼각파, 사각파를 섞어 들을 수 있습니다. 노브를 놓으면 관성과 감쇠가 적용됩니다. 키보드 화살표나 파형 버튼으로도 조절할 수 있습니다.
@@ -26,7 +26,14 @@
 
 르네상스의 예배당과 합창 문화는 메트로폴리탄 미술관의 [르네상스 음악 해설](https://www.metmuseum.org/essays/music-in-the-renaissance)을, 바로크의 극장 문화는 같은 미술관의 [오페라 해설](https://www.metmuseum.org/essays/the-opera)을 참고했습니다. 음렬과 역행은 [아르놀트 쇤베르크 센터의 12음 기법 전시](https://schoenberg.at/en/exhibitions/online-exhibitions/composition-with-12tones-online)를 참고했습니다.
 
-여섯 장의 기본 예시 음원은 이 페이지용으로 작곡하고 합성했습니다. 모더니즘 음원은 화면에 보이는 두 줄의 악보를 차례로 연주합니다.
+저장소의 모더니즘 예시 음원은 페이지의 연습 악보에 보이는 두 줄을 차례로 연주합니다.
+
+- 알레그리 〈미제레레〉는 Ensamble Escénico Vocal의 연주를 위키미디어 공용에서 내려받아 MP3로 재생합니다. [녹음 출처](https://commons.wikimedia.org/wiki/File:Allegri_-_Miserere_Mei%2C_Deus_-_Ensamble_Esc%C3%A9nico_Vocal_%28audio%29.ogg), [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
+- 비발디 〈겨울〉 1악장은 John Harrison이 바이올린을 맡고 Robert Turizziani가 Wichita State University Chamber Players를 지휘한 녹음입니다. 위키미디어 공용의 Ogg 파일을 MP3로 변환했습니다. [녹음 출처](https://commons.wikimedia.org/wiki/File:Vivaldi_-_Four_Seasons_4_Winter_mvt_1_Allegro_non_molto_-_John_Harrison_violin.oga), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+- 베토벤 《월광》 1악장은 Paul Pitman의 Musopen 녹음입니다. Musopen은 이 녹음을 퍼블릭 도메인으로 공개했습니다. [녹음 출처](https://commons.wikimedia.org/wiki/File:Ludwig_van_Beethoven_-_sonata_no._14_in_c_sharp_minor_%27moonlight%27%2C_op._27_no._2_-_i._adagio_sostenuto.ogg)
+- 차이콥스키 〈사탕 요정의 춤〉은 Incompetech에서 받은 Kevin MacLeod의 편곡을 재생합니다. [녹음 출처](https://www.incompetech.com/music/royalty-free/index.html?isrc=USUAN1100625), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 쇤베르크 《피아노 모음곡》 Op. 25의 〈인터메초〉는 Florent Boffard의 연주가 실린 유튜브 영상의 4:37부터 재생합니다. [연주 영상](https://www.youtube.com/watch?v=bQHR_Z8XVvI&t=277s), [쇤베르크 센터 작품 해설](https://schoenberg.at/en/schoenberg/kompositionen/suite-for-piano-op-25)
+- A2O LITE의 〈NEON〉은 A2O WORLD 공식 YouTube 영상으로 연결합니다. [공식 영상](https://www.youtube.com/watch?v=D968qfUZMUE)
 
 ## 시각 자료 출처
 

@@ -1,5 +1,6 @@
 const chapterAudio = document.querySelector('#chapter-audio');
 const trackTemplate = document.querySelector('#track-template');
+const creditsList = document.querySelector('#audio-credits-list');
 const editingTrackURLs = new URLSearchParams(location.search).get('music') === 'edit';
 let activeTrack;
 
@@ -51,8 +52,10 @@ async function startChapterTrack(track) {
 
   if (track.source.video) {
     const frame = document.createElement('iframe');
-    frame.src = 'https://www.youtube-nocookie.com/embed/' + track.source.video + '?autoplay=1';
-    frame.title = track.title + ' 장의 음악';
+    const params = new URLSearchParams({ autoplay: '1', playsinline: '1' });
+    if (track.startSeconds) params.set('start', String(track.startSeconds));
+    frame.src = 'https://www.youtube-nocookie.com/embed/' + track.source.video + '?' + params;
+    frame.title = '음악 재생 — ' + track.title;
     frame.allow = 'autoplay; encrypted-media; picture-in-picture';
     frame.allowFullscreen = true;
     track.video.append(frame);
@@ -84,19 +87,47 @@ for (const chapter of document.querySelectorAll('.chapter')) {
   const input = form.elements.url;
   const field = input.closest('label');
   const status = controls.querySelector('.track-status');
-  const cue = controls.querySelector('.demo-cue');
-  const track = { play, status, video: controls.querySelector('.track-video'), title: chapter.querySelector('h2').textContent };
+  const title = controls.querySelector('.track-title');
+  const cue = controls.querySelector('.track-cue');
+  const track = { play, status, video: controls.querySelector('.track-video') };
   const key = 'music-history:track:' + chapter.id;
-  const defaultURL = chapterTracks[chapter.id] || '';
+  const selection = chapterTracks[chapter.id];
+  const defaultURL = selection?.url ?? selection ?? '';
+  const chapterTitle = chapter.querySelector('h2').textContent;
+  if (selection?.credit) {
+    const entry = document.createElement('li');
+    const era = document.createElement('strong');
+    era.textContent = chapterTitle;
+    const source = document.createElement('a');
+    source.textContent = selection.credit;
+    source.href = selection.source;
+    entry.append(era, source);
+
+    if (selection.license) {
+      const license = document.createElement('a');
+      [license.textContent, license.href] = selection.license;
+      entry.append(' / ', license);
+    }
+    if (selection.creditNote) entry.append(' / ' + selection.creditNote);
+    creditsList.append(entry);
+  }
   let currentURL = defaultURL;
   try {
     currentURL = localStorage.getItem(key) || defaultURL;
   } catch {}
 
   function applyURL(value) {
-    track.source = value ? parseTrack(value) : { url: 'assets/audio/' + chapter.id + '.wav' };
-    cue.hidden = Boolean(value);
-    cue.textContent = value ? '' : '직접 만든 예시 음원　' + demoCues[chapter.id];
+    const showSelection = Boolean(selection?.title && value === defaultURL);
+    const localURL = showSelection && value.startsWith('assets/') ? value : '';
+    track.source = localURL || !value
+      ? { url: localURL || 'assets/audio/' + chapter.id + '.wav' }
+      : parseTrack(value);
+    track.startSeconds = showSelection ? selection.startSeconds : undefined;
+    track.title = showSelection ? selection.title : chapterTitle;
+    title.hidden = !showSelection;
+    title.textContent = showSelection ? selection.title : '';
+    cue.textContent = showSelection ? selection.cue : value ? '' : '직접 만든 예시 음원　' + demoCues[chapter.id];
+    cue.hidden = !cue.textContent;
     track.needsCorrection = false;
     currentURL = value;
   }
@@ -123,7 +154,7 @@ for (const chapter of document.querySelectorAll('.chapter')) {
         startChapterTrack(track);
       } else {
         field.hidden = false;
-        input.value = currentURL;
+        input.value = currentURL.startsWith('assets/') ? '' : currentURL;
         play.textContent = editingTrackURLs ? '주소 저장' : '저장하고 듣기';
         input.focus();
       }

@@ -1,10 +1,51 @@
-// 공개 사이트의 기본 곡을 지정합니다. 직접 재생 가능한 음원이나 YouTube URL을 넣으세요.
-// ?music=edit 화면에서 저장한 주소는 해당 브라우저에서만 우선 적용됩니다.
+// 장별 기본 곡과 감상 안내입니다. ?music=edit에서 저장한 주소는 해당 브라우저에서 우선합니다.
 const chapterTracks = {
-  renaissance: '',
-  baroque: '',
-  classicism: '',
-  romanticism: '',
-  modernism: '',
-  digital: '',
+  renaissance: {
+    title: '그레고리오 알레그리 — 미제레레 (Miserere mei, Deus)',
+    cue: '여러 성부가 겹치는 합창과 한 선율로 읊는 성가가 번갈아 나오는 부분을 들어보세요.',
+    url: 'assets/audio/miserere.mp3',
+    credit: 'Ensamble Escénico Vocal',
+    source: 'https://commons.wikimedia.org/wiki/File:Allegri_-_Miserere_Mei%2C_Deus_-_Ensamble_Esc%C3%A9nico_Vocal_%28audio%29.ogg',
+    license: ['CC BY 3.0', 'https://creativecommons.org/licenses/by/3.0/'],
+  },
+  baroque: {
+    title: '안토니오 비발디 — 《사계》 중 〈겨울〉 1악장',
+    cue: '첫머리의 짧고 반복되는 현악 합주 뒤에 독주 바이올린이 빠르게 치고 나오는 순간을 들어보세요.',
+    url: 'assets/audio/vivaldi-winter.mp3',
+    credit: 'John Harrison, Robert Turizziani, Wichita State University Chamber Players',
+    creditNote: 'MP3 변환',
+    source: 'https://commons.wikimedia.org/wiki/File:Vivaldi_-_Four_Seasons_4_Winter_mvt_1_Allegro_non_molto_-_John_Harrison_violin.oga',
+    license: ['CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/'],
+  },
+  classicism: {
+    title: '루트비히 판 베토벤 — 《월광》 1악장',
+    cue: '첫머리의 셋잇단음표가 일정하게 이어지는 동안 그 위로 느린 선율이 들어오는 순간을 들어보세요.',
+    url: 'assets/audio/moonlight.mp3',
+    credit: 'Paul Pitman / Musopen',
+    source: 'https://commons.wikimedia.org/wiki/File:Ludwig_van_Beethoven_-_sonata_no._14_in_c_sharp_minor_%27moonlight%27%2C_op._27_no._2_-_i._adagio_sostenuto.ogg',
+    license: ['퍼블릭 도메인', 'https://creativecommons.org/publicdomain/mark/1.0/'],
+  },
+  romanticism: {
+    title: '표트르 일리치 차이콥스키 — 《호두까기 인형》 중 〈사탕 요정의 춤〉',
+    cue: '첼레스타의 높고 맑은 음과 그 아래에서 짧게 응답하는 낮은 반주를 번갈아 따라가 보세요.',
+    url: 'assets/audio/sugar-plum-fairy.mp3',
+    credit: 'Kevin MacLeod 편곡 / Incompetech',
+    source: 'https://www.incompetech.com/music/royalty-free/index.html?isrc=USUAN1100625',
+    license: ['CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'],
+  },
+  modernism: {
+    title: '아르놀트 쇤베르크 — 《피아노 모음곡》 Op. 25 중 〈인터메초〉',
+    cue: '높은 음역에서 이어지는 반주와 낮은 음역의 느린 선율을 함께 들어보세요.',
+    url: 'https://www.youtube.com/watch?v=bQHR_Z8XVvI&t=277s',
+    startSeconds: 277,
+    credit: 'Florent Boffard 연주 (YouTube)',
+    source: 'https://www.youtube.com/watch?v=bQHR_Z8XVvI&t=277s',
+  },
+  digital: {
+    title: 'A2O LITE — NEON',
+    cue: '박자를 밀어주는 낮은 소리와 그 위에 겹쳐지는 밝은 전자 음색을 따로 들어보세요.',
+    url: 'https://www.youtube.com/watch?v=D968qfUZMUE',
+    credit: 'A2O WORLD 공식 영상 (YouTube)',
+    source: 'https://www.youtube.com/watch?v=D968qfUZMUE',
+  },
 };
